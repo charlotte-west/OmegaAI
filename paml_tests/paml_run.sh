@@ -14,10 +14,7 @@ aligner_path="$(dirname -- $file)"
 group_path="$(dirname -- $aligner_path)"
 control_file="${group_path}/reference/controlFiles/control_${file_only}.txt"
 tree=$(grep -oP "\[TREE\] treename  (.*)" "${control_file}" | sed "s/\[TREE\] treename  //")
-# tree="(((A:0.5,B:0.5):0.5,(C:0.5,D:0.5):0.5):0.5,((E:0.5,F:0.5):0.5,(G:0.5,H:0.5):0.5):0.5);"
 echo ${tree} >> "/omega_ai/tree_tmp/${DATASET_ID}_${file_only}_${aligner}.tmp"
-
-# ${file} is the msa
 
 # Setup codeml directory
 if [ ! -d "/omega_ai/paml_test/${DATASET_ID}" ]; then
@@ -43,7 +40,4 @@ python /omega_ai/slurm_cnn_selection/paml_tests/paml_test.py \
     "/omega_ai/data/simulations/paml_test_results/${DATASET_ID}/${aligner}/${DATASET_ID}_${aligner}_${file_only}"
 
 # Run again for 
-
 rm "/omega_ai/tree_tmp/${DATASET_ID}_${file_only}_${aligner}.tmp"
-
-# > "/omega_ai/data/simulations/paml_test_results/${DATASET_ID}/${aligner}/${DATASET_ID}_${aligner}_${file_only}_res.txt"

@@ -287,11 +287,6 @@ def main():
     # first run
     if args.continue_model:
         run_id = args.continue_model
-        # run_id = args.continue_model.split("/")[0]
-    #     epoch = args.continue_model.split("/")[-1]
-    #     print(f"Continuing from epoch {epoch}")
-    # else:
-    #     epoch =''
 
     # tweak run ID if multiple trees are used
     if args.mixed_trees:
@@ -302,18 +297,14 @@ def main():
         run_id = str(args.run_id)
 
     # define logs for TensorBoard
-
     log_dir = "/omega_ai/data/saved_models/" + run_id + "/logs/scalars/"
-    # checkpoint_dir = "/omega_ai/data/saved_models/" + run_id + "/{}".format(epoch)
-    # print("this is log_dir: {}".format(log_dir))
-    # print("this is checkpoint_dir: {}".format(checkpoint_dir))
+
     callbacks = [
         keras.callbacks.TensorBoard(log_dir=log_dir,
                                     update_freq=200),
         keras.callbacks.ModelCheckpoint(filepath="/omega_ai/data/saved_models/" + run_id + "/{epoch}",
                                         save_freq="epoch")
-    ]  # tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=5
-        # keras.callbacks.ModelCheckpoint(filepath="/omega_ai/data/saved_models/" + run_id + "/{}".format(epoch),
+    ]
 
     # train network
     model.fit(training_dataset,

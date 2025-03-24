@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
-# Module/tool imports
 import argparse
 import os
-# from glob import glob
 import pandas as pd
 import numpy as np
 

@@ -188,10 +188,9 @@ def generate_test_tfrecords(test_dir):
     if args.true_align:
         aligner_list = ["true"]
     else:
-        # aligner_list = ["clustal", "mafft", "prankaa", "prankc"]
-        aligner_list = ["clustal"]
+        aligner_list = ["clustal", "mafft", "prankaa", "prankc"]
+
     # convert alignments from each aligner to tfrecords
-    # for aligner in ["clustal", "mafft", "prankaa", "prankc", "true"]:
     for aligner in aligner_list:
         # store parsed alignments and y labels
         tf_alignments, tf_labels = [], []
@@ -252,7 +251,7 @@ def test_alt_archs():
     elif args.paml == 1:
         aligner_list = ["clustal", "mafft", "prankaa", "prankc"]
     else:
-        aligner_list = ["clustal", "mafft", "prankaa", "prankc"] #["clustal", "mafft"]
+        aligner_list = ["clustal", "mafft", "prankaa", "prankc"]
 
     # loop through models and test performance
     for model_id in list(arch_dic.keys()):
@@ -274,7 +273,6 @@ def test_alt_archs():
                 else:
                     test_files = glob(test_dir + "/{}/*tfrecord".format(aligner))
 
-                #test_files = glob("/hps/nobackup/research/goldmans/conor/omega_ai/data/test_tf_records/{0}/{1}/*tfrecord".format(args.dataset_id, aligner))
                 test_dataset = tf.data.TFRecordDataset(test_files).map(_parse_alignment).padded_batch(
                     batch_size=args.batch_size,
                     padded_shapes=([None,None,None],[]))
@@ -302,7 +300,7 @@ def test_divergences():
     """
     Test models trained on alignments simulated using various divergences.
     """
-    paml_dir = "/hps/nobackup/research/goldmans/conor/omega_ai/paml_selection/determining_branch_lengths/output/"
+    paml_dir = "/omega_ai/paml_selection/determining_branch_lengths/output/"
 
     # get all divergences tested
     div_dic = {}
@@ -333,16 +331,13 @@ def test_divergences():
 
         # test final epoch 
         for epoch in [final_epoch]:
-            # model = models.load_model("saved_models/" + saved_model + "/50")
             model = models.load_model("saved_models/" + saved_model + "/" + epoch)
     
             x = tf.ones((512, 8, 2000, 5))
             model.evaluate(x)
 
             # loop through various aligner-produced test sets
-            # for aligner in ["clustal", "mafft", "prankaa", "prankc"]:
-            for aligner in ["true"]:
-                #test_files = glob("/hps/nobackup/research/goldmans/conor/omega_ai/data/test_tf_records/{0}/{1}/*tfrecord".format("baseline_" + diverg, aligner))
+            for aligner in ["clustal", "mafft", "prankaa", "prankc"]:
                 test_files = glob(paml_dir + diverg + "/tfrecords/{0}/{0}.tfrecord".format(aligner))
                 test_dataset = tf.data.TFRecordDataset(test_files).map(_parse_alignment).padded_batch(
                     batch_size=args.batch_size,
@@ -391,7 +386,6 @@ def main():
     model.summary()
 
     # Setup directory
-    ### NEW
     if args.outdir == "":
         res_outdir = args.dataset_id
     else:
@@ -400,26 +394,20 @@ def main():
     os.system("mkdir /omega_ai/data/simulations/model_test_results/{0}".format(res_outdir))
 
     # parse TFRecords of the test data for four aligners
-    # for aligner in ["clustal", "mafft", "prankaa", "prankc"]:
     if args.true_align:
         aligner_list = ["true"]
     else:
         aligner_list = ["clustal", "mafft", "prankaa", "prankc"]
-        # aligner_list = ["clustal"]
 
     for aligner in aligner_list:
 
         # Setup directory 
-        # os.system("mkdir /omega_ai/data/simulations/model_test_results/{0}/{1}".format(args.dataset_id, aligner))
-        os.system("mkdir /omega_ai/data/simulations/model_test_results/{0}/{1}".format(res_outdir, aligner)) ### NEW
+        os.system("mkdir /omega_ai/data/simulations/model_test_results/{0}/{1}".format(res_outdir, aligner))
 
         print("=" * len(aligner))
         print(aligner)
         print("=" * len(aligner))
-        # test_files = glob("/hps/nobackup/research/goldmans/conor/omega_ai/data/test_tf_records/{0}/{1}/*tfrecord".format(args.dataset_id, aligner))
         test_files = glob("/omega_ai/data/test_tf_records/{0}/{0}.{1}.alignments.tfrecord".format(args.dataset_id, aligner))
-        # print("this is test files")
-        # print(test_files)
         test_dataset = tf.data.TFRecordDataset(test_files).map(_parse_alignment).padded_batch(
             batch_size=256,
             padded_shapes=([None,None,None],[]))
@@ -451,8 +439,7 @@ def main():
 
         results = { "accuracy" : acc, "tpr" : tpr, "fpr": fpr,  "tp" : tp, "fp" : fp, "tn" : tn, "fn" : fn, "aligner": aligner}
         res_df = pd.DataFrame(results, index=[0])
-        # res_df.to_csv("/omega_ai/data/simulations/model_test_results/{0}/{1}/{0}_{1}_res.csv".format(args.dataset_id, aligner), index=False)
-        res_df.to_csv("/omega_ai/data/simulations/model_test_results/{0}/{1}/{0}_{1}_res.csv".format(res_outdir, aligner), index=False) ### NEW
+        res_df.to_csv("/omega_ai/data/simulations/model_test_results/{0}/{1}/{0}_{1}_res.csv".format(res_outdir, aligner), index=False)
 
 if __name__ == "__main__":
     main()

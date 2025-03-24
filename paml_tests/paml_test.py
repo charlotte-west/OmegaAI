@@ -22,20 +22,11 @@ def paml_selection(alignment_file, tree_file, work_dir):
     """
     # initialize codeml
     cml = codeml.Codeml(
-        # alignment=alignment_file,
-        # tree=tree_file,
-        # out_file=alignment_file + ".out",
-        # working_dir=os.getcwd(),
 
         alignment=alignment_file,
         tree=tree_file,
         working_dir=work_dir,
         out_file=work_dir + alignment_file.split('/')[-1] + ".out"
-
-        # alignment=alignment_file,
-        # tree=tree_file,
-        # working_dir="/omega_ai/paml_test/",
-        # out_file= "/omega_ai/paml_test/" + alignment_file.split('/')[-1] + ".out"
     )
     
     # provide verbose output
@@ -79,12 +70,7 @@ def paml_selection(alignment_file, tree_file, work_dir):
     # 0: update all parmaeters including branch lengths simultaneously
     cml.set_options(method=0)
 
-    #start = time.time()
-    #os.chdir("/nfs/research/goldman/conor/cnn_selection/paml_tests")
-    #res = cml.run(command="/nfs/research/goldman/conor/tools/paml/bin/codeml")
     res = cml.run(command=os.path.join(os.getcwd(), "codeml"))
-    #end = time.time()
-    #print(str(end - start) + " (PAML run time)")
 
     # calculate likelihood ratios
     lmd1 = 2 * (res["NSsites"][2]["lnL"] - res["NSsites"][1]["lnL"])
@@ -93,10 +79,7 @@ def paml_selection(alignment_file, tree_file, work_dir):
     # return 1 (positive selection if both chi2 model comparisons pass 5% alpha)
     lmd1_res = chi2.cdf(lmd1, 2)
     lmd2_res = chi2.cdf(lmd2, 2)
-    # if (chi2.cdf(lmd1, 2) > 0.95) and (chi2.cdf(lmd2, 2) > 0.95):
-    #     return  1
-    # else:
-    #     return  0
+
     if (lmd1_res > 0.95) and (lmd2_res > 0.95):
         result = 1
     else:
@@ -107,7 +90,7 @@ def paml_selection(alignment_file, tree_file, work_dir):
 
 def main():
     paml_result, lmd1_res, lmd2_res = paml_selection(argv[1], argv[2], argv[3])
-    # print(paml_result)
+
     file_base = argv[4]
 
     with open(file_base + "_res.txt", 'w') as file:

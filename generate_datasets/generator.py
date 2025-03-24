@@ -88,33 +88,16 @@ def simulate_align(ID, aligner, shuffle=False):
     mafft = tool_dir + "mafft/bin/mafft"
     prank = tool_dir + "prank/bin/prank"
 
-    # tool_dir = "/omega_ai/tools/"
-    # indelible = tool_dir + "INDELibleV1.03/src/indelible"
-    # clustal = tool_dir + "clustalo"
-    # pal2nal = tool_dir + "pal2nal.pl"
-    # mafft = tool_dir + "bin/mafft"
-
     # call INDELible
     indelible_start = time.time()
     os.system(indelible)
     indelible_end = time.time() - indelible_start
     print("indelible runtime: " + str(indelible_end), flush=True)
 
-    # print("can currently see:")
-    # file_list = []
-    # for root, directories, files in os.walk(os.getcwd()):
-    #     for file_name in files:
-    #         file_list.append(file_name)
-    
-    # print(file_list)
-    
-    # # print(os.listdir(os.getcwd()))
     if shuffle:
         # Specify the input FASTA file
         sequences = list(SeqIO.parse("dna.fas", "fasta"))
         os.system("rm dna.fas")
-        # print("sequences:")
-        # print(sequences)
 
         random.shuffle(sequences)
 
@@ -156,7 +139,6 @@ def simulate_align(ID, aligner, shuffle=False):
         os.system("perl {} -output fasta aa_aligned.fas dna.fas >> codon_aligned.fas".format(pal2nal))
         pal_end = time.time() - pal_start
         print("pal2nal runtime: " + str(pal_end))
-        # os.system("mv codon_aligned.fas mafft_test_x/"+ID+".fas")
         os.system("rm aa_aligned.fas")
 
     elif aligner == "prankc":
@@ -176,7 +158,6 @@ def simulate_align(ID, aligner, shuffle=False):
                     out_fi.write(">{}\n{}\n".format(header, prank_align_dic[header]))
         # Change to correct order
         reorder_seqs("codon_aligned_unordered.fas", seq_order, "codon_aligned.fas")
-        # os.system("mv corrected_codon_aligned.fas prankc_test_x/"+ID+".fas")
         os.system("rm tmp_dna.best.fas codon_aligned_unordered.fas")
         prankc_end = time.time() - prankc_start
         print("PRANK codon runtime: " + str(prankc_end))    
@@ -278,7 +259,6 @@ def main():
     os.system("mkdir " + folder)
     os.chdir(folder)
     os.system("mkdir train_x train_y reference length")
-    # os.system("mkdir reference/{LOG,output,output_TRUE,site_classes,controlFiles,parameters}")
     os.system("mkdir reference/LOG")
     os.system("mkdir reference/output")
     os.system("mkdir reference/output_TRUE")
@@ -305,7 +285,6 @@ def main():
     n_positive = float(argv[10])
 
     # loop through a set number of simulations
-    # loop_start = time.time()
     for x in range(int(start),int(end)):
         if argv[7] == "test":
             # add arbitrary value to random seed for test alignments
@@ -332,9 +311,6 @@ def main():
 
         if randomSiteFlag[0] == 1:  # whether there is positve selection or not
             flag = 1
-            # p0 = np.random.uniform(low=0.2,high=0.4)
-            # p2 = np.random.uniform(low=0.05,high=0.5)
-            # p1 = 1-p0-p2
         else:
             if randomSiteFlag[1] == 1:
                 flag = 0
@@ -350,12 +326,11 @@ def main():
 
         # root length distribution: gamma, scale 85, shape 4.2 (suggested by Viacheslav)
         length = np.random.gamma(4.2,scale=85)
-        # length = 200
 
         # restriction on root length: 100-600 codons
         while length < 100 or length > 600:  
             length = np.random.gamma(4.2,scale=85)
-            # length = 200
+
         # gene length has to be integer    
         length = int(length)
 
@@ -384,13 +359,6 @@ def main():
         end_open = time.time() - start_open
         print("Writing params runtime: " + str(end_open), flush=True)
 
-        if argv[9] == "mix":
-            # with open("/hps/nobackup/goldman/charwest/danaides/data/trees/500k_trees/trees/{0}.nwk".format(x)) as file:
-            print(f"got here {x}")
-            with open("/hps/nobackup/goldman/charwest/danaides/data/trees/500k_trees/trees/{0}.nwk".format(x)) as file:
-                tree_topology = file.read().strip()
-                print(tree_topology)
-
         # write control file using either geometric or power law distributed indel lengths
         if indel_distribution == "NB":
             create_NB_control(p0,p1,w0,w1,w2,tree_topology,length,k,indel_rate,randomseed=indelible_seed)
@@ -400,16 +368,12 @@ def main():
         # perform simulation using INDELible
         if (len(argv) == 12):
             if (argv[11] == 'shuffle'):
-                # print("got here 1")
                 simulate_align(str(x), aligner, True)
             elif (argv[11] == 'true_align'):
-                # print("got here 2")
                 simulate_true_align(str(x), False)
         elif (len(argv) > 12):
-            # print("got here 3")
             simulate_true_align(str(x), True)
         else:
-            # print("got here 4")
             simulate_align(str(x), aligner)
 
     os_start = time.time()

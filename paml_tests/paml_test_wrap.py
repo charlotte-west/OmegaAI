@@ -9,7 +9,7 @@ current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 print("start datetime: " + current_datetime)
 
 # Conda command
-conda_com="source /hps/software/users/goldman/charwest/miniconda3/bin/activate && conda deactivate && conda activate omega_ai"
+conda_com="source /miniconda3/bin/activate && conda deactivate && conda activate omega_ai"
 
 # Command line Arguments
 DATASET_ID = sys.argv[1]
@@ -25,9 +25,6 @@ if not os.path.isdir(run_script_dir):
 
 # Loop over aligners and test trees in test dataset (usually ~2000 trees)
 for aligner in ['clustal','mafft','prankaa','prankc']:
-# for aligner in ['clustal']:
-# for aligner in ['true']:
-# for aligner in ['mafft','prankaa','prankc']:
     counter = 1
     name_counter = 1
 
@@ -41,12 +38,9 @@ for aligner in ['clustal','mafft','prankaa','prankc']:
     with open("/omega_ai/data/run_scripts_paml/{2}/run_50_paml_tests_{0}_{1}.sh".format(name_counter, aligner, DATASET_ID), "w") as f:
         f.write("#!/usr/bin/env bash\n")
 
-    # os.system('echo "printting file"')
-    # os.system('cat /omega_ai/data/run_scripts_paml/{2}/run_50_paml_tests_{0}_{1}.sh'.format(name_counter, aligner, DATASET_ID))
     file_pattern = f"/omega_ai/data/simulations/test_datasets/{DATASET_ID}/*/{aligner}_test_x/*"
     file_list = glob.glob(file_pattern)
     print("len of list is: {}".format(len(file_list)))
-    # print(file_list)
 
     for file in file_list:
         
@@ -57,7 +51,6 @@ for aligner in ['clustal','mafft','prankaa','prankc']:
             f.write(f"  {DATASET_ID} \\\n")
             f.write(f"  {aligner}\n")
             f.write(f" echo done\n")
-            # f.write("sleep 0.01\n")
 
         if (counter > 49):
             # run ~50 tests
@@ -78,7 +71,6 @@ for aligner in ['clustal','mafft','prankaa','prankc']:
             name_counter += 1
 
             # Remove 
-            # os.system("rm /omega_ai/data/run_scripts_paml/{2}/run_50_paml_tests_{0}_{1}.sh".format(name_counter, aligner, DATASET_ID))
             os.system("touch /omega_ai/data/run_scripts_paml/{2}/run_50_paml_tests_{0}_{1}.sh".format(name_counter, aligner, DATASET_ID))
             os.system("chmod +x /omega_ai/data/run_scripts_paml/{2}/run_50_paml_tests_{0}_{1}.sh".format(name_counter, aligner, DATASET_ID))
 
@@ -90,7 +82,6 @@ for aligner in ['clustal','mafft','prankaa','prankc']:
 
         # Increment the counter
         counter += 1
-        # print(counter)
 
     if os.path.exists("/omega_ai/data/run_scripts_paml/{2}/run_50_paml_tests_{0}_{1}.sh".format(name_counter, aligner, DATASET_ID)):
         os.system('echo "### OUTSIDE ### hello"\n')
@@ -104,4 +95,3 @@ for aligner in ['clustal','mafft','prankaa','prankc']:
                 --wrap "{conda_com} && /omega_ai/data/run_scripts_paml/{DATASET_ID}/run_50_paml_tests_{name_counter}_{aligner}.sh"
         """
         os.system(sbatch_com)
-        # os.system('rm /omega_ai/slurm_cnn_selection/paml_tests/run_50_paml_tests_*.sh')
