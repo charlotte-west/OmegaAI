@@ -116,7 +116,7 @@ def main():
         print("training")
 
     # out directory
-    base_dir = "/hps/nobackup/goldman/charwest/omega_ai/data/tf_records/"
+    base_dir = "/omega_ai/data/tf_records/"
     out_dir = base_dir + "/" + argv[1] + "/" + set_dir + "/"  # argv[1] = dataset id
     Path(out_dir).mkdir(parents=True, exist_ok=True)
 

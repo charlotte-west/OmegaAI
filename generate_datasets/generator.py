@@ -81,14 +81,14 @@ def simulate_align(ID, aligner, shuffle=False):
     """
     Simulate an alignment using parameters defined in main.
     """
-    tool_dir = "/hps/nobackup/goldman/charwest/omega_ai/tools/"
+    tool_dir = "/omega_ai/tools/"
     indelible = tool_dir + "indelible"
     clustal = tool_dir + "clustalo"
     pal2nal = tool_dir + "pal2nal.pl"
     mafft = tool_dir + "mafft/bin/mafft"
     prank = tool_dir + "prank/bin/prank"
 
-    # tool_dir = "/hps/nobackup/goldman/charwest/omega_ai/tools/"
+    # tool_dir = "/omega_ai/tools/"
     # indelible = tool_dir + "INDELibleV1.03/src/indelible"
     # clustal = tool_dir + "clustalo"
     # pal2nal = tool_dir + "pal2nal.pl"
@@ -201,7 +201,7 @@ def simulate_true_align(ID, shuffle=False):
     """
     Simulate an alignment using parameters defined in main.
     """
-    tool_dir = "/hps/nobackup/goldman/charwest/omega_ai/tools/"
+    tool_dir = "/omega_ai/tools/"
     indelible = tool_dir + "indelible"
 
     # call INDELible
@@ -261,9 +261,9 @@ def main():
 
     # define if test or train data is to be generated
     if argv[7] == "test":
-        basedir = "/hps/nobackup/goldman/charwest/omega_ai/data/simulations/test_datasets/"
+        basedir = "/omega_ai/data/simulations/test_datasets/"
     else:
-        basedir = "/hps/nobackup/goldman/charwest/omega_ai/data/simulations/datasets/"
+        basedir = "/omega_ai/data/simulations/datasets/"
 
     # add aligner to dataset ID if it isn't the default of clustal
     if argv[8] != "clustal":
@@ -291,7 +291,7 @@ def main():
     # either define the baseline tree topology or retrieve from file
     tree_start = time.time()
     if argv[9] in ["32", "64", "128"]:
-        with open("/hps/nobackup/goldman/charwest/omega_ai/data/gene_trees/artificial/{}_tips.tree".format(argv[9]), "r") as tree_f:
+        with open("/omega_ai/data/gene_trees/artificial/{}_tips.tree".format(argv[9]), "r") as tree_f:
             tree_topology = tree_f.read().strip()
     elif argv[9] == "mix":
         tree_topology = ""

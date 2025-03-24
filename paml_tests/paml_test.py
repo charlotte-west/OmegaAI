@@ -34,8 +34,8 @@ def paml_selection(alignment_file, tree_file, work_dir):
 
         # alignment=alignment_file,
         # tree=tree_file,
-        # working_dir="/hps/nobackup/goldman/charwest/omega_ai/paml_test/",
-        # out_file= "/hps/nobackup/goldman/charwest/omega_ai/paml_test/" + alignment_file.split('/')[-1] + ".out"
+        # working_dir="/omega_ai/paml_test/",
+        # out_file= "/omega_ai/paml_test/" + alignment_file.split('/')[-1] + ".out"
     )
     
     # provide verbose output

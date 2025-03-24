@@ -194,7 +194,7 @@ def main():
     # determine if a previously incomplete network training run should be
     # continued, or if a new training run is started
     if args.continue_model:
-        model = load_model("/hps/nobackup/goldman/charwest/omega_ai/data/saved_models/" + args.continue_model)
+        model = load_model("/omega_ai/data/saved_models/" + args.continue_model)
         already_trained = int(args.continue_model.split("/")[-1])
         n_epochs = args.n_epochs - already_trained
     else:
@@ -231,11 +231,11 @@ def main():
     if args.mixed_trees:
         train_files, val_files = [], []
         for tree in ["baseline", "tips_32", "tips_64"]:
-            train_files.extend(glob("/hps/nobackup/goldman/charwest/omega_ai/data/tf_records/{}/training/*tfrecord".format(tree)))
-            val_files.extend(glob("/hps/nobackup/goldman/charwest/omega_ai/data/tf_records/{}/validation/*tfrecord".format(tree)))
+            train_files.extend(glob("/omega_ai/data/tf_records/{}/training/*tfrecord".format(tree)))
+            val_files.extend(glob("/omega_ai/data/tf_records/{}/validation/*tfrecord".format(tree)))
     else:
-        train_files = glob("/hps/nobackup/goldman/charwest/omega_ai/data/tf_records/{}/training/*tfrecord".format(args.dataset_id))
-        val_files = glob("/hps/nobackup/goldman/charwest/omega_ai/data/tf_records/{}/validation/*tfrecord".format(args.dataset_id))
+        train_files = glob("/omega_ai/data/tf_records/{}/training/*tfrecord".format(args.dataset_id))
+        val_files = glob("/omega_ai/data/tf_records/{}/validation/*tfrecord".format(args.dataset_id))
  
     print("here5")
 
@@ -303,17 +303,17 @@ def main():
 
     # define logs for TensorBoard
 
-    log_dir = "/hps/nobackup/goldman/charwest/omega_ai/data/saved_models/" + run_id + "/logs/scalars/"
-    # checkpoint_dir = "/hps/nobackup/goldman/charwest/omega_ai/data/saved_models/" + run_id + "/{}".format(epoch)
+    log_dir = "/omega_ai/data/saved_models/" + run_id + "/logs/scalars/"
+    # checkpoint_dir = "/omega_ai/data/saved_models/" + run_id + "/{}".format(epoch)
     # print("this is log_dir: {}".format(log_dir))
     # print("this is checkpoint_dir: {}".format(checkpoint_dir))
     callbacks = [
         keras.callbacks.TensorBoard(log_dir=log_dir,
                                     update_freq=200),
-        keras.callbacks.ModelCheckpoint(filepath="/hps/nobackup/goldman/charwest/omega_ai/data/saved_models/" + run_id + "/{epoch}",
+        keras.callbacks.ModelCheckpoint(filepath="/omega_ai/data/saved_models/" + run_id + "/{epoch}",
                                         save_freq="epoch")
     ]  # tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=5
-        # keras.callbacks.ModelCheckpoint(filepath="/hps/nobackup/goldman/charwest/omega_ai/data/saved_models/" + run_id + "/{}".format(epoch),
+        # keras.callbacks.ModelCheckpoint(filepath="/omega_ai/data/saved_models/" + run_id + "/{}".format(epoch),
 
     # train network
     model.fit(training_dataset,

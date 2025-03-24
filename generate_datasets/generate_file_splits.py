@@ -6,7 +6,7 @@ from sys import argv
 
 
 def main():
-    basedir = "/hps/nobackup/goldman/charwest/omega_ai/data/simulations/datasets/"
+    basedir = "/omega_ai/data/simulations/datasets/"
     dataset_id = argv[1]
     
     alignments = glob(basedir + dataset_id + "/group_*/train_x/*fas")

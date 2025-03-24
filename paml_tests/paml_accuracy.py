@@ -17,7 +17,7 @@ args = parser.parse_args()
 
 
 # Get list of selection predictions for given dataset/aligner
-paml_res_dir = "/hps/nobackup/goldman/charwest/omega_ai/data/simulations/paml_test_results/{0}/{1}".format(args.dataset, args.aligner)
+paml_res_dir = "/omega_ai/data/simulations/paml_test_results/{0}/{1}".format(args.dataset, args.aligner)
 
 # Initialise counts
 tp = 0
@@ -46,7 +46,7 @@ for file in os.listdir(paml_res_dir):
         else:
             group = "group_1503"
 
-        true_file_path = "/hps/nobackup/goldman/charwest/omega_ai/data/simulations/test_datasets/{0}/{1}/test_y/{2}.txt".format(args.dataset, group, num_id)
+        true_file_path = "/omega_ai/data/simulations/test_datasets/{0}/{1}/test_y/{2}.txt".format(args.dataset, group, num_id)
 
         # PAML pred
         paml_file_path = paml_res_dir + "/" + paml_file
@@ -88,7 +88,7 @@ acc = (tp+tn) / (tp+fp+tn+fn)
 # Save to csv file
 results = { "accuracy" : acc, "tpr" : tpr, "fpr": fpr,  "tp" : tp, "fp" : fp, "tn" : tn, "fn" : fn, "dataset" : args.dataset, "aligner": args.aligner}
 res_df = pd.DataFrame(results, index=[0])
-res_df.to_csv("/hps/nobackup/goldman/charwest/omega_ai/data/simulations/paml_test_results/{0}/{0}_{1}_res.csv".format(args.dataset, args.aligner), index=False)
+res_df.to_csv("/omega_ai/data/simulations/paml_test_results/{0}/{0}_{1}_res.csv".format(args.dataset, args.aligner), index=False)
 
     
 

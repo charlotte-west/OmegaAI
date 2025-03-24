@@ -397,7 +397,7 @@ def main():
     else:
         res_outdir = args.outdir
     
-    os.system("mkdir /hps/nobackup/goldman/charwest/omega_ai/data/simulations/model_test_results/{0}".format(res_outdir))
+    os.system("mkdir /omega_ai/data/simulations/model_test_results/{0}".format(res_outdir))
 
     # parse TFRecords of the test data for four aligners
     # for aligner in ["clustal", "mafft", "prankaa", "prankc"]:
@@ -410,14 +410,14 @@ def main():
     for aligner in aligner_list:
 
         # Setup directory 
-        # os.system("mkdir /hps/nobackup/goldman/charwest/omega_ai/data/simulations/model_test_results/{0}/{1}".format(args.dataset_id, aligner))
-        os.system("mkdir /hps/nobackup/goldman/charwest/omega_ai/data/simulations/model_test_results/{0}/{1}".format(res_outdir, aligner)) ### NEW
+        # os.system("mkdir /omega_ai/data/simulations/model_test_results/{0}/{1}".format(args.dataset_id, aligner))
+        os.system("mkdir /omega_ai/data/simulations/model_test_results/{0}/{1}".format(res_outdir, aligner)) ### NEW
 
         print("=" * len(aligner))
         print(aligner)
         print("=" * len(aligner))
         # test_files = glob("/hps/nobackup/research/goldmans/conor/omega_ai/data/test_tf_records/{0}/{1}/*tfrecord".format(args.dataset_id, aligner))
-        test_files = glob("/hps/nobackup/goldman/charwest/omega_ai/data/test_tf_records/{0}/{0}.{1}.alignments.tfrecord".format(args.dataset_id, aligner))
+        test_files = glob("/omega_ai/data/test_tf_records/{0}/{0}.{1}.alignments.tfrecord".format(args.dataset_id, aligner))
         # print("this is test files")
         # print(test_files)
         test_dataset = tf.data.TFRecordDataset(test_files).map(_parse_alignment).padded_batch(
@@ -451,8 +451,8 @@ def main():
 
         results = { "accuracy" : acc, "tpr" : tpr, "fpr": fpr,  "tp" : tp, "fp" : fp, "tn" : tn, "fn" : fn, "aligner": aligner}
         res_df = pd.DataFrame(results, index=[0])
-        # res_df.to_csv("/hps/nobackup/goldman/charwest/omega_ai/data/simulations/model_test_results/{0}/{1}/{0}_{1}_res.csv".format(args.dataset_id, aligner), index=False)
-        res_df.to_csv("/hps/nobackup/goldman/charwest/omega_ai/data/simulations/model_test_results/{0}/{1}/{0}_{1}_res.csv".format(res_outdir, aligner), index=False) ### NEW
+        # res_df.to_csv("/omega_ai/data/simulations/model_test_results/{0}/{1}/{0}_{1}_res.csv".format(args.dataset_id, aligner), index=False)
+        res_df.to_csv("/omega_ai/data/simulations/model_test_results/{0}/{1}/{0}_{1}_res.csv".format(res_outdir, aligner), index=False) ### NEW
 
 if __name__ == "__main__":
     main()
