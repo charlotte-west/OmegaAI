@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Code Authorship:
+#   Original implementation: Charlotte West
+
 DATASET_ID="$1"
 
 # Specify the file to store the timing information

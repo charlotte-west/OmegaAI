@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+
+# Code Authorship:
+#   Original implementation: Conor R. Walker and Viacheslav Vasilev
+#   Contributors:
+#       - Charlotte West
+
 import argparse
 from glob import glob
 from datetime import datetime

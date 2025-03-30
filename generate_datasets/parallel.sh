@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+
+# Code Authorship:
+#   Original implementation: Xingze Xu
+
 # bash shell script to parallel the simulation
 # generator_v2 python script should be in the directory
 # indelible & clustalo executable, pal2nal perl script should be in the directory
@@ -9,8 +14,8 @@
 
 # In the directory, the folder output_aligned contains Clustal O aligned genes (input of NN)
 # the folder parameters contains the parameters of each control file in this
-# order: p0, p1, w0, w1, w2, root length, kappa, insertion & deletion rate,
 # alpha of Rieman Zetas insertion & deletion size distribution 
+# order: p0, p1, w0, w1, w2, root length, kappa, insertion & deletion rate,
 
 let avg=$1/$2
 let avg+=1

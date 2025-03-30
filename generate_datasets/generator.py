@@ -1,3 +1,10 @@
+#!/usr/local/bin/python
+
+# Code Authorship:
+#   Original implementation: Xingze Xu and Conor R. Walker
+#   Contributors:
+#       - Charlotte West
+
 import numpy as np
 import time
 import os
