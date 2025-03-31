@@ -1,5 +1,8 @@
 #!/usr/local/bin/python
 
+# Code Authorship:
+#   Original implementation: Conor R. Walker
+
 from glob import glob
 from pathlib import Path
 from sys import argv

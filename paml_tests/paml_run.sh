@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Code Authorship:
+#   Original implementation: Charlotte West
+
 # CL Arguments
 file="$1"
 DATASET_ID="$2"

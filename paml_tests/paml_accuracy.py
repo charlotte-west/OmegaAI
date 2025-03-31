@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# Code Authorship:
+#   Original implementation: Conor R. Walker and Xingze Xu
+#   Contributors:
+#       - Charlotte West
+
 import argparse
 import os
 import pandas as pd

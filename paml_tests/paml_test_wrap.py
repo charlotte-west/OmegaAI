@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Code Authorship:
+#   Original implementation: Charlotte West
+
 import os
 import sys
 import glob

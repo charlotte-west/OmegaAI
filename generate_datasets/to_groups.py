@@ -3,6 +3,12 @@ import time
 from sys import argv
 from datetime import datetime
 
+# Code Authorship:
+#   Original implementation: Xingze Xu
+#   Contributors:
+#       - Conor R. Walker
+#       - Charlotte West
+
 # argv[1], argv[2] = start, end
 # argv[3] = divergence flag (baseline/low/high)
 # argv[4] = indel distribution (NB=negative binomial, POW=power law)

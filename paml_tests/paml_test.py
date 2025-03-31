@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+# Code Authorship:
+#   Original implementation: Xingze Xu
+#   Contributors:
+#       - Conor R. Walker
+#       - Charlotte West
+
 from Bio.Phylo.PAML import codeml
 import os
 from scipy.stats import chi2
