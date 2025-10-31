@@ -1,6 +1,6 @@
 # OmegaAI
 
-**OmegaAI** contains the code used to develop **convolutional neural networks (CNNs)** that predict the presence or absence of **positive selection** from **multiple sequence alignments (MSAs)** of **protein-coding nucleotide sequences**.  
+This repository contains the code used to develop **convolutional neural networks (CNNs)** that predict the presence or absence of **positive selection** from **multiple sequence alignments (MSAs)** of **protein-coding nucleotide sequences**, referred to as **OmegaAI**.  
 It also includes scripts used to **simulate training data** for these models.
 
 > ⚠️ *Note:* This repository is provided primarily as an **educational and reference resource**. It is not intended for direct production use.
